@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="PolicyBot - AI Legal Document Assistant for intelligent legal document research and policy queries">
+    <meta name="theme-color" content="#c4dbb3">
+    <title>PolicyBot - AI Legal Assistant</title>
+    <link rel="icon" type="image/x-icon" href="assests/PolicyBot_logo.ico">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+
+    
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+        <div class="sidebar-header">
+            <img src="assests/PolicyBot_logo.png" alt="PolicyBot Logo" class="sidebar-logo" width="40" height="40">
+            <h2 class="sidebar-title">Menu</h2>
+            <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">
+                <span class="material-icons">close</span>
+            </button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <button class="sidebar-item" id="sidebarNewChatBtn" title="New Chat">
+                <span class="material-icons">add_comment</span>
+                <span>New Chat</span>
+            </button>
+            
+            <button class="sidebar-item" id="sidebarHistoryBtn" title="Chat History">
+                <span class="material-icons">history</span>
+                <span>Chat History</span>
+            </button>
+            
+            <button class="sidebar-item" id="sidebarClearChatBtn" title="Clear Chat">
+                <span class="material-icons">delete_outline</span>
+                <span>Clear Chat</span>
+            </button>
+            
+            <div class="sidebar-divider"></div>
+            
+            <button class="sidebar-item" id="sidebarSettingsBtn" title="Settings">
+                <span class="material-icons">settings</span>
+                <span>Settings</span>
+            </button>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <p class="sidebar-footer-text">PolicyBot v1.0</p>
+            <p class="sidebar-footer-subtext">AI Legal Assistant</p>
+        </div>
+    </aside>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Header -->
+    <header class="header" role="banner" role="banner">
+        <div class="header-content">
+            <button class="menu-btn" id="menuBtn" aria-label="Open menu" title="Open menu">
+                <span class="material-icons">menu</span>
+            </button>
+            <div class="logo-section">
+                <img src="assests/PolicyBot_logo.png" alt="PolicyBot Logo" class="logo" width="48" height="48">
+                <div class="brand-info">
+                    <h1 class="brand-name">PolicyBot</h1>
+                    <p class="brand-tagline">AI Legal Document Assistant</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Chat Container -->
+    <main class="chat-container" id="main-content" role="main">
+        <!-- Welcome Screen (shown when no messages) -->
+        <div class="welcome-screen" id="welcomeScreen" role="region" aria-label="Welcome screen">
+            <div class="welcome-content">
+                <img src="assests/PolicyBot_logo.png" alt="PolicyBot" class="welcome-logo" width="120" height="120">
+                <h2 class="welcome-title">Welcome to PolicyBot</h2>
+                <p class="welcome-description">
+                    Your intelligent assistant for legal document research and policy queries. 
+                    Ask me anything about your documents, and I'll help you find the answers you need.
+                </p>
+                <div class="suggestion-cards" role="group" aria-label="Suggested queries" role="group" aria-label="Suggested queries">
+                    <button class="suggestion-card" data-query="What are the key points in our privacy policy?" aria-label="Ask about privacy policy key points">
+                        <span class="material-icons" aria-hidden="true">description</span>
+                        <span>Summarize privacy policy</span>
+                    </button>
+                    <button class="suggestion-card" data-query="Explain the terms of service" aria-label="Ask to explain terms of service">
+                        <span class="material-icons" aria-hidden="true">help_outline</span>
+                        <span>Explain terms of service</span>
+                    </button>
+                    <button class="suggestion-card" data-query="What are the compliance requirements?" aria-label="Ask about compliance requirements">
+                        <span class="material-icons" aria-hidden="true">verified_user</span>
+                        <span>Check compliance requirements</span>
+                    </button>
+                    <button class="suggestion-card" data-query="Find information about data retention" aria-label="Ask about data retention policies">
+                        <span class="material-icons" aria-hidden="true">storage</span>
+                        <span>Data retention policies</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Messages Area -->
+        <div class="messages-area" id="messagesArea" role="log" aria-live="polite" aria-label="Chat messages">
+            <!-- Messages will be dynamically added here -->
+        </div>
+
+        <!-- Typing Indicator -->
+        <div class="typing-indicator" id="typingIndicator" style="display: none;" role="status" aria-live="polite" aria-label="Bot is typing">
+            <div class="typing-orb"></div>
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <span class="typing-text">PolicyBot is thinking...</span>
+        </div>
+    </main>
+
+    <!-- Input Area -->
+    <div class="input-container" role="region" aria-label="Message input">
+        <form class="input-wrapper" id="messageForm" onsubmit="return false;">
+            <label for="messageInput" class="visually-hidden">Type your message</label>
+            <textarea 
+                id="messageInput" 
+                class="message-input" 
+                placeholder="Ask me anything about your documents..."
+                rows="1"
+                aria-label="Message input field"
+                aria-describedby="inputHint"
+            ></textarea>
+            <button class="send-btn" id="sendBtn" type="submit" title="Send Message" aria-label="Send message">
+                <span class="material-icons" aria-hidden="true">send</span>
+            </button>
+        </form>
+        <p class="input-hint" id="inputHint">Press Enter to send, Shift+Enter for new line</p>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Settings</h3>
+                <button class="close-btn" id="closeModalBtn" aria-label="Close settings">
+                    <span class="material-icons" aria-hidden="true">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-item">
+                    <label for="apiEndpoint">API Endpoint</label>
+                    <input type="text" id="apiEndpoint" class="setting-input" placeholder="http://localhost:8000/api/query">
+                    <div style="margin-top: 8px; font-size: 12px; color: #64748b;">
+                        <strong>Demo APIs (no backend needed):</strong><br>
+                        • <span style="font-family: monospace; font-size: 11px;">https://jsonplaceholder.typicode.com/todos/1</span><br>
+                        • <span style="font-family: monospace; font-size: 11px;">https://jsonplaceholder.typicode.com/posts/1</span>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <label>Request Method</label>
+                    <div style="display: flex; gap: 16px; margin-top: 8px;">
+                        <label class="checkbox-label">
+                            <input type="radio" name="requestMethod" id="methodPOST" value="POST" checked>
+                            <span>POST (Production)</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="radio" name="requestMethod" id="methodGET" value="GET">
+                            <span>GET (Simple/Demo)</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <label for="maxTokens">Max Response Length</label>
+                    <input type="number" id="maxTokens" class="setting-input" value="500">
+                </div>
+                <div class="setting-item">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="demoMode">
+                        <span>Demo Mode (works with any REST API)</span>
+                    </label>
+                </div>
+                </div>
+                 <div class="modal-footer">
+                <button class="btn-secondary" id="cancelBtn">Cancel</button>
+                <button class="btn-primary" id="saveSettingsBtn">Save Settings</button>
+            </div>
+            </div>
+           
+        </div>
+    </div>
+
+    <!-- Chat History Modal -->
+    <div class="modal" id="historyModal" role="dialog" aria-modal="true" aria-labelledby="historyModalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="historyModalTitle">Chat History</h3>
+                <button class="close-btn" id="closeHistoryBtn" aria-label="Close chat history">
+                    <span class="material-icons" aria-hidden="true">close</span>
+                </button>
+            </div>
+            <div class="modal-body" id="historyModalBody">
+                <div class="history-list" id="historyList">
+                    <!-- Chat sessions will be dynamically added here -->
+                </div>
+                <div class="empty-history" id="emptyHistory" style="display: none;">
+                    <span class="material-icons" style="font-size: 48px; opacity: 0.3;">chat_bubble_outline</span>
+                    <p style="color: var(--neutral-dark); margin-top: 16px;">No chat history yet</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="closeHistoryFooterBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
